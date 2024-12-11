@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picas y Fijas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    input {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Picas y Fijas (Mila y Franc)</h1>
+  <div class="container">
+    <input type="text" id="number1" placeholder="Ingresa aquí tu número" maxlength="4">
+    <input type="text" id="number2" maxlength="4">
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function checkBullsAndCows() {
+      const num1 = document.getElementById('number1').value;
+      const num2 = document.getElementById('number2').value;
+
+      if (num1.length !== 4 || num2.length !== 4 || isNaN(num1) || isNaN(num2)) {
+        document.getElementById('result').textContent = 'Por favor ingresa un número de 4 dígitos';
+        return;
+      }
+
+      let bulls = 0;
+      let cows = 0;
+
+      // Convert strings to arrays for easier comparison
+      const num1Arr = num1.split('');
+      const num2Arr = num2.split('');
+
+      // Count Bulls
+      for (let i = 0; i < 4; i++) {
+        if (num1Arr[i] === num2Arr[i]) {
+          bulls++;
+          num1Arr[i] = num2Arr[i] = null; // Mark as matched
+        }
+      }
+
+      // Count Cows
+      for (let i = 0; i < 4; i++) {
+        if (num2Arr[i] && num1Arr.includes(num2Arr[i])) {
+          cows++;
+          const index = num1Arr.indexOf(num2Arr[i]);
+          num1Arr[index] = null; // Mark as matched
+        }
+      }
+
+      document.getElementById('result').textContent = `Picas: ${cows}, Fijas: ${bulls}`;
+    }
+
+    // Add event listeners for real-time updates
+    document.getElementById('number1').addEventListener('input', checkBullsAndCows);
+    document.getElementById('number2').addEventListener('input', checkBullsAndCows);
+  </script>
+</body>
+</html>
